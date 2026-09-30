@@ -6,6 +6,8 @@ import java.io.IOException;
 
 import org.testng.annotations.Test;
 
+import com.api.utils.SpecUtil;
+
 import static com.api.constant.Role.*;
 
 
@@ -24,24 +26,15 @@ import static io.restassured.RestAssured.*;
 public class UserDetailsApiTest {
 	@Test
 	public void userDetailsAPITest() throws IOException {
-		Header authHeader= new Header("Authorization", getToken(FD));
+		
 		
 		given()
-			.baseUri(getProperty("BASE_URI"))
-		.and()
-			.header(authHeader)
-		.and()
-			.accept(ContentType.JSON)
-			.log().uri()
-			.log().method()
-			.log().body()
-			.log().headers()
+			.spec(SpecUtil.requestSpecWithAuth(FD))
 		.when()
 			.get("userdetails")
 		.then()
-			.statusCode(200)
-			.log().all()
-			.time(lessThan(1000L))
+			.spec(SpecUtil.responseSpec_OK())
+			.and()
 			.body(JsonSchemaValidator.matchesJsonSchemaInClasspath("response-schema/userDetailsResponseSchema.json"));
 		
 			

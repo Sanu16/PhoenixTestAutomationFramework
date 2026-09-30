@@ -10,6 +10,8 @@ import java.io.IOException;
 import org.testng.annotations.Test;
 
 import com.api.pojo.UserCredentials;
+import com.api.utils.SpecUtil;
+
 import static com.api.utils.ConfigManager.*;
 
 
@@ -28,23 +30,12 @@ public void loginApiTest() throws IOException {
 		//Rest Assured Code	
 		UserCredentials userCredentila = new UserCredentials("iamfd", "password");
 		given()
-			.baseUri(getProperty("BASE_URI"))
-		.and()
-			.contentType(ContentType.JSON)
-		.and()
-			.accept(ContentType.JSON)
-		.and()
-			.body(userCredentila)
-			.log().uri()
-			.log().method()
-			.log().headers()
-			.log().body()
+			.spec(SpecUtil.requestSpec(userCredentila))
+			
 		.when()
 			.post("login")
 		.then()
-			.log().all()
-			.statusCode(200)
-			.time(lessThan(2000L))
+			.spec(SpecUtil.responseSpec_OK())
 		.and()
 			.body("message", equalTo("Success"))
 		.and()
