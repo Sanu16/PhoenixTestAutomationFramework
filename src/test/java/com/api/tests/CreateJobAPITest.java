@@ -2,6 +2,8 @@ package com.api.tests;
 
 import static org.hamcrest.Matchers.*;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +17,7 @@ import com.api.request.model.CustomerProduct;
 import com.api.request.model.Problems;
 import com.api.utils.AuthTokenProvider;
 import com.api.utils.ConfigManager;
+import static com.api.utils.DateTimeUtil.*;
 import com.api.utils.SpecUtil;
 
 import io.restassured.http.ContentType;
@@ -32,9 +35,10 @@ public class CreateJobAPITest {
 	public void createJobAPITest() {
 		
 		//Creating create job payload Object
+		
 		Customer customer= new Customer("Sanu", "Anand", "7059787222", "", "xyz@gmail.com", "");
 		CustomerAddesss customerAddress = new CustomerAddesss("402", "CNR nest", "zsanu street","raja shree","Marathali", "560037", "India", "Karnataka");
-		CustomerProduct customerProduct= new CustomerProduct("2025-12-31T18:30:00.000Z", "14712811579133", "14712811579133", "14712811579133", "2025-12-31T18:30:00.000Z", 1, 1);
+		CustomerProduct customerProduct= new CustomerProduct(getTimeWithDaysAgo(10), "16712811579133", "16712811579133", "16712811579133", getTimeWithDaysAgo(10), 1, 1);
 		Problems problems= new Problems(1, "Battery issue");
 		List<Problems> problemList = new ArrayList<Problems>();
 		problemList.add(problems);
