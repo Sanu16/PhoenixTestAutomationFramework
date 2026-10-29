@@ -2,6 +2,7 @@ package com.api.utils;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Iterator;
 import java.util.List;
 
 import com.dataproviders.api.bean.UserBean;
@@ -22,22 +23,24 @@ public class CSVReaderUtil {
 		// SingleTon class constructors are private
 	}
 
-	public static void loadCsv(String pathOfCSVFile) {
+	public static Iterator<UserBean> loadCsv(String pathOfCSVFile) {
 		// Read CSV file in JAVA
+		// Creating CSV reader object
 		InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(pathOfCSVFile);
 		InputStreamReader isr = new InputStreamReader(is);
 		CSVReader csvReader = new CSVReader(isr); // CSV Reader constructor requires a Reader
 
 		// Write the code to map the csv to POJO
 		// helps us to convert csv to pojo
+		//Performing the mapping
 		CsvToBean<UserBean> csvToBean = new CsvToBeanBuilder(csvReader)
 				.withType(UserBean.class)
 				.withIgnoreEmptyLine(true)
 				.build();
-
+		//Parsing
 		List<UserBean> userList = csvToBean.parse();
-		// System.out.println(userList.get(0).getUsername());
-		System.out.println(userList);
+		return userList.iterator();
+		
 
 	}
 }
