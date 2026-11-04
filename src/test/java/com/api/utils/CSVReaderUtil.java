@@ -23,7 +23,7 @@ public class CSVReaderUtil {
 		// SingleTon class constructors are private
 	}
 
-	public static Iterator<UserBean> loadCsv(String pathOfCSVFile) {
+	public static <T> Iterator<T> loadCsv(String pathOfCSVFile,Class<T> bean) {
 		// Read CSV file in JAVA
 		// Creating CSV reader object
 		InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(pathOfCSVFile);
@@ -33,13 +33,14 @@ public class CSVReaderUtil {
 		// Write the code to map the csv to POJO
 		// helps us to convert csv to pojo
 		//Performing the mapping
-		CsvToBean<UserBean> csvToBean = new CsvToBeanBuilder(csvReader)
-				.withType(UserBean.class)
+		
+		CsvToBean<T> csvToBean = new CsvToBeanBuilder(csvReader)
+				.withType(bean)
 				.withIgnoreEmptyLine(true)
 				.build();
 		//Parsing
-		List<UserBean> userList = csvToBean.parse();
-		return userList.iterator();
+		List<T> list = csvToBean.parse();
+		return list.iterator();
 		
 
 	}
