@@ -57,14 +57,17 @@ public class FakerDataGenerator {
 	}
 
 	private static List<Problems> generateFakeProblemsList() {
-		String fakeRemark = faker.lorem().sentence(5);
-
-		// I want to generate the random number from 1 to 27;
-
-		int randomIndex = RANDOM.nextInt(validProblemsId.length);
-		Problems problems = new Problems(validProblemsId[randomIndex], fakeRemark);
+		int count=RANDOM.nextInt(3)+1;
+		String fakeRemark;
+		int randomIndex;
+		Problems problems;
 		List<Problems> problemList = new ArrayList<Problems>();
+		for(int i=1;i<=count;i++) {
+		fakeRemark = faker.lorem().sentence(5);
+		randomIndex = RANDOM.nextInt(validProblemsId.length);
+		problems = new Problems(validProblemsId[randomIndex], fakeRemark);
 		problemList.add(problems);
+		}
 		return problemList;
 	}
 
